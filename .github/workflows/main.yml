@@ -1,0 +1,16 @@
+on: [push]
+
+jobs:
+  Knit:
+    runs-on: ubuntu-latest
+    name: A little test tangle
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Tangle org files
+        uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: tangle
+          force_orphan: true
