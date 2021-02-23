@@ -1,4 +1,4 @@
-#!/usr/bin/env -S python3 -u
+#!/usr/bin/env python3
 
 import inputs, setup, push, knit
 from colour import *
@@ -24,12 +24,12 @@ print("::group::configuration")
 print(I.pretty_print())
 print("::endgroup::")
 
-if I.config:
-    print("::group::setup emacs config")
-    setup.config(I.config)
-    print("::endgroup::")
-else:
-    setup.empty_config()
+# if I.config:
+#     print("::group::setup emacs config")
+#     setup.config(I.config)
+#     print("::endgroup::")
+# else:
+#     setup.empty_config()
 
 if I.commit_message and I.branch and not I.github_token:
     print(red | "GitHub Token missing, will not be able to create commit.")
@@ -70,28 +70,9 @@ print(
 )
 
 with concurrent.futures.ThreadPoolExecutor() as executor:
-    future_to_result = {}
-    if I.export:
-        future_to_result.update(
-            {
-                executor.submit(
-                    knit.export,
-                    f,
-                    form,
-                    I,
-                ): ("exported", f, form)
-                for f in files
-                for form in I.export
-            }
-        )
-    if I.tangle:
-        future_to_result.update(
-            {
-                executor.submit(knit.tangle, f, I): ("tangled", f, None)
-                for f in files
-                if I.tangle == True or any([fnmatch(f, glob) for glob in I.tangle])
-            }
-        )
+    future_to_result = {
+        executor.submit(knit.tangle, f, I): ("tangled", f, None) for f in files
+    }
 
     for future in concurrent.futures.as_completed(future_to_result):
         action, f, form = future_to_result[future]

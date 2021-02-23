@@ -1,24 +1,15 @@
-name: "Org Knit"
-description: "Weave and Tangle Org files"
+name: "Org Tangle"
+description: "Tangle Org files"
 branding:
-  icon: "shuffle"
+  icon: "chevrons-right"
   color: "white"
 inputs:
-  config:
-    description: Emacs config to use with the export
-    default: false
   setup_file:
     description: Setupfile to apply to all exported files
     default: false
   eval:
     description: Bool indicating whether to allow evaluation of code blocks during export, or a list of files.
     default: false
-  tangle:
-    description: Bool indicating whether to run org-tangle on each file, or a list of files to tangle.
-    default: false
-  export:
-    description: List of formats to export to.
-    default: "html"
   files:
     description: List of Org file globs to act on. All .org files by default
     default: "**/*.org"
@@ -36,20 +27,17 @@ inputs:
     default: true
   commit_message:
     description: 'Commit message to use. "!#!" is replaced with the triggering commit''s short hash.'
-    default: "Knit: !#!"
+    default: "Tangle: !#!"
   fragile:
     description: Fail the action at the first sign of trouble, or power on through.
     default: true
 
 runs:
   using: "docker"
-  image: "ghcr.io/tecosaur/org-knit-action:v0.2"
+  image: "ghcr.io/tecosaur/org-tangle-action:v0.1"
   args:
-    - ${{ inputs.config }}
     - ${{ inputs.setupfile }}
     - ${{ inputs.eval }}
-    - ${{ inputs.tangle }}
-    - ${{ inputs.export }}
     - ${{ inputs.files }}
     - ${{ inputs.github_token }}
     - ${{ inputs.branch }}

@@ -101,11 +101,11 @@ def default_branch(directory):
 
 class Inputs:
     arg_def = {
-        "config": bool_or_str,  # False
+        # "config": bool_or_str,  # False
         "setup_file": v_replace(bool_or_str, "", False),  # False
         "eval": bool_or_str_arr,  # False
-        "tangle": bool_or_str_arr,  # False
-        "export": bool_or_str_arr,  # html
+        # "tangle": bool_or_str_arr,  # False
+        # "export": bool_or_str_arr,  # html
         "files": str_arr,  # **.org
         "github_token": bool_or_str,  # False
         "branch": v_replace(bool_or_str, True, default_branch(work_dir)),  # True

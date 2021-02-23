@@ -24,17 +24,15 @@ def push(work_dir: Path, I: Inputs):
 
     print(blue | f"Configure repository to push to {I.branch}")
 
-    if I.keep_files == True:
-        git("remote", "rm", "origin")
-
     if I.force_orphan:
         run(["rm", "-rf", work_dir.absolute() / ".git"])
-        git("init")
 
-    if git("show-ref", "-q", "--heads").returncode != 0:
-        git("branch", I.branch)
+    git("init")
 
-    git("checkout", I.branch)
+    if I.keep_files == True and not I.force_orphan:
+        git("remote", "rm", "origin")
+
+    git("checkout", "-B", I.branch)
 
     print(blue | "Add remote, and stage files")
 

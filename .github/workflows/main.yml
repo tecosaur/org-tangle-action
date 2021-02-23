@@ -3,16 +3,14 @@ on: [push]
 jobs:
   Knit:
     runs-on: ubuntu-latest
-    name: A little test knit
+    name: A little test tangle
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Export org files
+      - name: Tangle org files
         uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: knit
-          export: html, pdf, md
-          tangle: true
-          keep_files: false
+          branch: tangle
+          force_orphan: true

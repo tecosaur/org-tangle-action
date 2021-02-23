@@ -7,8 +7,8 @@ from fnmatch import fnmatch
 
 def gen_options(I: Inputs):
     options = []
-    if I.config:
-        options.extend(["-c", "~/.emacs.d/init.el"])
+    # if I.config:
+    #     options.extend(["-c", "~/.emacs.d/init.el"])
     if I.setup_file:
         options.extend(["-s", I.setup_file])
     return options
