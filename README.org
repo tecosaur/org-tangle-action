@@ -41,9 +41,9 @@ on: [push]
 jobs:
   tangle:
     runs-on: ubuntu-latest
+    steps:
     - name: Checkout
       uses: actions/checkout@v2
-
     - name: Tangle Org files to GitHub Pages
       uses: tecosaur/org-tangle-action@v0.1
       with:
