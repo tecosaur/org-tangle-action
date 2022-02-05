@@ -1,0 +1,52 @@
+#+title: Org Tangle
+#+author: TEC
+
+Let someone else take care of keeping up to date tangled versions of your
+Org files for public consumption.
+
+#+begin_src yaml
+- name: Tangle org files
+  uses: tecosaur/org-tangle-action@v0.1
+  with:
+    github_token: ${{ secrets.GITHUB_TOKEN }}
+#+end_src
+
+* Parameters
++ =parameter= (=default=) :: description
+** Parameter types
++ boolean :: can be =true= / =false= or =yes= / =no=
++ list :: can be a single value, comma separated values (without quotes), or a
+  python list as a string.
+** Tangling
++ =setup_file= (boolean or list: =false=) :: URL for a =#+setupfile= to use in all Org files.
++ =eval= (boolean or list: =false=) :: Whether to evaluate code in Org files. Also accepts a list of
+  globs specifying which Org files should be evaluated.
++ =files= (list: =**/*.org=) :: List of org file globs to tangle.
+** Publishing
++ =github_token= (string) :: The =GITHUB_TOKEN= secret. Required to push any result.
++ =branch= (string: default branch) :: The branch to push files to
++ =force_orphan= (boolean: =false=) :: Force-push the created commit as the only commit on
+  the branch.
++ =keep_files= (boolean or list: =true=) :: Whether to include non-org-related files. Also accepts a
+  list of globs.
++ =commit_message= (string: =Knit: !#!=) :: Commit message to use. =!#!= is replaced with the
+  triggering commit hash.
++ =fragile= (boolean: =true=) :: Fail the action if any tangle steps fail.
+
+* Example action
+#+begin_src yaml :tangle "demo.yml"
+name: "Tangle"
+on: [push]
+
+jobs:
+  tangle:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Tangle Org files to GitHub Pages
+      uses: tecosaur/org-tangle-action@v0.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: tangle
+#+end_src

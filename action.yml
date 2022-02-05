@@ -1,0 +1,47 @@
+name: "Org Tangle"
+description: "Tangle Org files"
+branding:
+  icon: "chevrons-right"
+  color: "white"
+inputs:
+  setup_file:
+    description: Setupfile to apply to all exported files
+    default: false
+  eval:
+    description: Bool indicating whether to allow evaluation of code blocks during export, or a list of files.
+    default: false
+  files:
+    description: List of Org file globs to act on. All .org files by default
+    default: "**/*.org"
+  github_token:
+    description: Use the generated GITHUB_TOKEN for pushing to the remote branch.
+    default: false
+  branch:
+    description: Branch to push files to. Will use the default branch unless told otherwise.
+    default: true
+  force_orphan:
+    description: Keep only the latest commit on the specified branch.
+    default: false
+  keep_files:
+    description: When using a non-default branch, keep non-org-related files.
+    default: true
+  commit_message:
+    description: 'Commit message to use. "!#!" is replaced with the triggering commit''s short hash.'
+    default: "Tangle: !#!"
+  fragile:
+    description: Fail the action at the first sign of trouble, or power on through.
+    default: true
+
+runs:
+  using: "docker"
+  image: "docker://ghcr.io/tecosaur/org-tangle-action:v0.1"
+  args:
+    - ${{ inputs.setupfile }}
+    - ${{ inputs.eval }}
+    - ${{ inputs.files }}
+    - ${{ inputs.github_token }}
+    - ${{ inputs.branch }}
+    - ${{ inputs.force_orphan }}
+    - ${{ inputs.keep_files }}
+    - ${{ inputs.commit_message }}
+    - ${{ inputs.fragile }}
